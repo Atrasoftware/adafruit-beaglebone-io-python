@@ -313,6 +313,7 @@ BBIO_err pwm_setup(const char *key, __attribute__ ((unused)) float duty, __attri
         || device_tree_loaded("univ-bbgw")       // ""
         || device_tree_loaded("univ-emmc")       // ""
         || device_tree_loaded("univ-hdmi")       // ""
+        || device_tree_loaded("BeagleG-ATRA")    // from Atra
         || device_tree_loaded("univ-nhdmi")))    // ""
     {
         return BBIO_CAPE;
@@ -589,11 +590,11 @@ BBIO_err pwm_disable(const char *key)
     {
         if (strcmp(pwm->key, key) == 0)
         {
-	        
+
 #ifdef BBBVERSION41
 	        char buffer[2];
 	        size_t len;
-	        
+
 	        // Disable the PWM
 	        lseek(pwm->enable_fd, 0, SEEK_SET);
 	        len = snprintf(buffer, sizeof(buffer), "0");
@@ -604,7 +605,7 @@ BBIO_err pwm_disable(const char *key)
 	        // Unexport the PWM
 	        // TODO later
 #endif
-	        
+
             //close the fd
             close(pwm->period_fd);
             close(pwm->duty_fd);
