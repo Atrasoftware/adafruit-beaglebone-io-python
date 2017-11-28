@@ -6,7 +6,7 @@ Modified for BBIO Author Justin Cooper
 Modified for 4.1+ kernels by Grizmio
 Unified for 3.8 and 4.1+ kernels by Peter Lawler <relwalretep@gmail.com>
 
-This file incorporates work covered by the following copyright and 
+This file incorporates work covered by the following copyright and
 permission notice, all modified code adopts the original license:
 
 Copyright (c) 2013 Ben Croston
@@ -61,9 +61,9 @@ char ocp_dir[OCP_DIR_MAX];
 int setup_error = 0;
 int module_setup = 0;
 
-typedef struct pins_t { 
-    const char *name; 
-    const char *key; 
+typedef struct pins_t {
+    const char *name;
+    const char *key;
     int gpio;
     int pwm_mux_mode;
     int ain;
@@ -167,7 +167,39 @@ pins_t table[] = {
   { "DGND", "P9_44", 0, -1, -1},
   { "DGND", "P9_45", 0, -1, -1},
   { "DGND", "P9_46", 0, -1, -1},
-  
+  { "EXPIO0_0", "D2_P0", 480, -1, -1},
+  { "EXPIO0_1", "D2_P1", 481, -1, -1},
+  { "EXPIO0_2", "D2_P2", 482, -1, -1},
+  { "EXPIO0_3", "D2_P3", 483, -1, -1},
+  { "EXPIO0_4", "D2_P4", 484, -1, -1},
+  { "EXPIO0_5", "D2_P5", 485, -1, -1},
+  { "EXPIO0_6", "D2_P6", 486, -1, -1},
+  { "EXPIO0_7", "D2_P7", 487, -1, -1},
+  { "GPIO_J10", "D2_P8", 488, -1, -1},
+  { "ETH_LED", "D2_P9", 489, -1, -1},
+  { "SPI2_CS", "D2_P10", 490, -1, -1},
+  { "CS2_1", "D2_P11", 491, -1, -1},
+  { "CS2_2", "D2_P12", 492, -1, -1},
+  { "NOT_BUZZ_EN", "D2_P13", 493, -1, -1},
+  { "24V_ES_ENABLE", "D2_P14", 494, -1, -1},
+  { "D2_P15", "D2_P15", 495, -1, -1},
+  { "PWR_FAIL", "D12_P0", 496, -1, -1},
+  { "BATT_STAT", "D12_P1", 497, -1, -1},
+  { "GPIO_RTC", "D12_P2", 498, -1, -1},
+  { "24V_ES", "D12_P3", 499, -1, -1},
+  { "CHRG_STAT", "D12_P4", 500, -1, -1},
+  { "HIZ_DET", "D12_P5", 501, -1, -1},
+  { "D12_P6", "D12_P6", 502, -1, -1},
+  { "D12_P7", "D12_P7", 503, -1, -1},
+  { "MUX_0", "D8_P0", 504, -1, -1},
+  { "MUX_1", "D8_P1", 505, -1, -1},
+  { "MUX_2", "D8_P2", 506, -1, -1},
+  { "MUX_3", "D8_P3", 507, -1, -1},
+  { "MUX_4", "D8_P4", 508, -1, -1},
+  { "MUX_5", "D8_P5", 509, -1, -1},
+  { "MUX_6", "D8_P6", 510, -1, -1},
+  { "MUX_7", "D8_P7", 511, -1, -1},
+
   // These are for the Blue
     { "GP0_3", "GP0_3",  57, -1, -1},
     { "GP0_4", "GP0_4",  49, -1, -1},
@@ -182,10 +214,10 @@ pins_t table[] = {
     { "BAT75", "BAT75",  61, -1, -1},
     { "BAT100", "BAT100",  10000, -1, -1}, // Placeholder
     { "WIFI", "WIFI",  10001, -1, -1}, // Placeholder
-  
+
     { "PAUSE", "P8_9",  69, 1, -1},
     { "MODE",  "P8_10", 68, 1, -1},
-  
+
   // These are for the PocketBeagle
   { "VIN_AC", "P1_1", 0, -1, -1},
   { "GPIO2_23", "P1_2", 87, -1, -1},
@@ -259,14 +291,14 @@ pins_t table[] = {
   { "GPIO3_19", "P2_34", 115, -1, -1},
   { "GPIO2_22", "P2_35", 86, -1, -1},
   { "AIN7", "P2_36", 0, -1, 7},
-  
+
   { NULL, NULL, 0, 0, 0 }
 };
 
-typedef struct uart_t { 
-    const char *name; 
+typedef struct uart_t {
+    const char *name;
     const char *path;
-    const char *dt; 
+    const char *dt;
     const char *rx;
     const char *tx;
 } uart_t;
@@ -383,7 +415,7 @@ BBIO_err copy_pwm_key_by_key(const char *input_key, char *key)
 
             strncpy(key, p->key, 7);
             key[7] = '\0';
-            return BBIO_OK;                
+            return BBIO_OK;
         }
     }
     return BBIO_INVARG;
@@ -409,7 +441,7 @@ BBIO_err get_pwm_key_by_name(const char *name, char *key)
 BBIO_err get_gpio_number(const char *key, unsigned int *gpio)
 {
     *gpio = lookup_gpio_by_key(key);
-    
+
     if (!*gpio) {
         *gpio = lookup_gpio_by_name(key);
     }
@@ -455,7 +487,7 @@ BBIO_err get_pwm_key(const char *input, char *key)
 BBIO_err get_adc_ain(const char *key, int *ain)
 {
     *ain = lookup_ain_by_key(key);
-    
+
     if (*ain == -1) {
         *ain = lookup_ain_by_name(key);
 
@@ -522,7 +554,7 @@ int get_spi_bus_path_number(unsigned int spi)
   } else {
       snprintf(path, sizeof(path), "%s/481a0000.spi/spi_master/spi1", ocp_dir);
   }
-  
+
   DIR* dir = opendir(path);
   if (dir) {
       closedir(dir);

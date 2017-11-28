@@ -349,6 +349,7 @@ BBIO_err pwm_setup(const char *key, __attribute__ ((unused)) float duty, __attri
         || device_tree_loaded("univ-bbgw")       // ""
         || device_tree_loaded("univ-emmc")       // ""
         || device_tree_loaded("univ-hdmi")       // ""
+        || device_tree_loaded("BeagleG-ATRA")    // from Atra
         || device_tree_loaded("univ-nhdmi")))    // ""
     {
         syslog(LOG_ERR, "Adafruit_BBIO: pwm_setup: %s no suitable cape loaded", key);
