@@ -5,7 +5,7 @@ publish: clean
 	python setup.py sdist upload
 
 clean:
-	rm -rf Adafruit_BBIO_ATRA.* build dist
+	rm -rf Adafruit_BBIO.* build dist
 	rm -f *.pyo
 	rm -f *.egg
 	rm -f overlays/*.pyo overlays/*.pyc
